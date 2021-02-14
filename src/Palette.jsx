@@ -29,7 +29,7 @@ class Palette extends Component {
                     key={i}
                     name={color.name}
                     moreUrl={`/palette/${id}/${color.id}`}
-                    showLink={true}
+                    showFullPalette={true}
                 />
             );
         });
