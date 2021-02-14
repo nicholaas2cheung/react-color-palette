@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
+import { Link } from 'react-router-dom';
 import 'rc-slider/assets/index.css';
 import './Navbar.css';
 import Select from '@material-ui/core/Select';
@@ -27,25 +28,28 @@ class Navbar extends Component {
     }
 
     render() {
-        const { level, changeLevel } = this.props;
+        const { level, changeLevel, showAllColors } = this.props;
         const { format } = this.state;
         return (
             <header className="Navbar">
                 <div className="logo">
-                    <a href="#">reactColorPicker</a>
+                    <Link to="/">reactColorPicker</Link>
                 </div>
-                <div className="slider-container">
-                    <span>Level: {level}</span>
-                    <div className="slider">
-                        <Slider
-                            defaultValue={level}
-                            min={100}
-                            max={900}
-                            step={100}
-                            onAfterChange={changeLevel}
-                        />
+                {showAllColors && (
+                    <div className="slider-container">
+                        <span>Level: {level}</span>
+                        <div className="slider">
+                            <Slider
+                                defaultValue={level}
+                                min={100}
+                                max={900}
+                                step={100}
+                                onAfterChange={changeLevel}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
+
                 <div className="select-container">
                     <Select value={format} onChange={this.handleFormatChange}>
                         <MenuItem value="hex">HEX - #FFFFFF</MenuItem>
@@ -53,6 +57,7 @@ class Navbar extends Component {
                         <MenuItem value="rgba">RGBA - (255, 255, 255, 1)</MenuItem>
                     </Select>
                 </div>
+
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                     open={this.state.open}
