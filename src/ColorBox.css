@@ -11,10 +11,10 @@
 .SingleColorPalette .ColorBox {
     height: 50%;
 } */
-
+/* 
 .ColorBox.go-back {
     background-color: black;
-}
+} */
 
 .copy-button,
 .back-button {
@@ -132,7 +132,7 @@
     text-transform: uppercase;
 } */
 
-.copy-msg p {
+/* .copy-msg p {
     font-size: 2rem;
     font-weight: 100;
-}
+} */
