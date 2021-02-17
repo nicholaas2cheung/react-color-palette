@@ -12,6 +12,7 @@ import DraggableColorList from './DraggableColorList';
 import ColorPickerForm from './ColorPickerForm';
 import PaletteFormNav from './PaletteFormNav';
 import { arrayMove } from 'react-sortable-hoc';
+import seedColors from './seedColors';
 import styles from './styles/NewPaletteFormStyles.js';
 
 class NewPaletteForm extends Component {
@@ -23,7 +24,7 @@ class NewPaletteForm extends Component {
         super(props);
         this.state = {
             open: true,
-            colors: this.props.palettes[0].colors
+            colors: seedColors[0].colors
         };
     }
 
@@ -59,11 +60,16 @@ class NewPaletteForm extends Component {
 
     addRandomColor = () => {
         const allColors = this.props.palettes.map((palette) => palette.colors).flat();
-        let ranNum = Math.floor(Math.random() * allColors.length);
-        const randomColor = allColors[ranNum];
-        this.setState({
-            colors: [...this.state.colors, randomColor]
-        });
+        let ranNum;
+        let randomColor;
+        let isDuplicateColor = true;
+
+        while (isDuplicateColor) {
+            ranNum = Math.floor(Math.random() * allColors.length);
+            randomColor = allColors[ranNum];
+            isDuplicateColor = this.state.colors.some((color) => color.name === randomColor.name);
+        }
+        this.setState({ colors: [...this.state.colors, randomColor] });
     };
 
     removeColor = (colorName) => {

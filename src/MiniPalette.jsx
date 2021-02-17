@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/styles';
-import styles from './styles/MiniPaletteStyles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import styles from './styles/MiniPaletteStyles';
 
 class MiniPalette extends PureComponent {
     constructor(props) {
@@ -20,7 +20,7 @@ class MiniPalette extends PureComponent {
     };
 
     render() {
-        const { classes, paletteName, emoji, colors, goToPalette, id } = this.props;
+        const { classes, paletteName, emoji, colors } = this.props;
         const miniColorBoxes = colors.map((color) => (
             <div
                 className={classes.miniColor}
