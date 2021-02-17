@@ -10,50 +10,16 @@ import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-
-const drawerWidth = 400;
-
-const styles = (theme) => ({
-    root: {
-        display: 'flex'
-    },
-    appBar: {
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen
-        }),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        height: '64px'
-    },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-        })
-    },
-    menuButton: {
-        marginRight: theme.spacing(2)
-    },
-    navBtns: {}
-});
+import PaletteMetaForm from './PaletteMetaForm';
+import styles from './styles/PaletteFormNavStyles';
 
 class PaletteFormNav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            newPaletteName: ''
+            newPaletteName: '',
+            formShowing: false
         };
-    }
-
-    componentDidMount() {
-        ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
-            return this.props.palettes.every(
-                ({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase()
-            );
-        });
     }
 
     handleChange = (evt) => {
@@ -62,8 +28,16 @@ class PaletteFormNav extends Component {
         });
     };
 
+    showForm = () => {
+        this.setState({ formShowing: true });
+    };
+
+    hideForm = () => {
+        this.setState({ formShowing: false });
+    };
+
     render() {
-        const { classes, open } = this.props;
+        const { classes, open, palettes, handleSubmit } = this.props;
         const { newPaletteName } = this.state;
         return (
             <div className={classes.root}>
@@ -87,27 +61,31 @@ class PaletteFormNav extends Component {
                             Create A Palette
                         </Typography>
                     </Toolbar>
-                    <div className={classes.navBtns}>
-                        <ValidatorForm onSubmit={() => this.props.handleSubmit(newPaletteName)}>
-                            <TextValidator
-                                label="Palette Name"
-                                name="newPaletteName"
-                                value={this.state.newPaletteName}
-                                onChange={this.handleChange}
-                                validators={['required', 'isPaletteNameUnique']}
-                                errorMessages={['Enter a palette name', 'Name already used!']}
-                            />
-                            <Button variant="contained" color="primary" type="submit">
-                                Save Palette
-                            </Button>
-                        </ValidatorForm>
-                        <Link to="/">
-                            <Button variant="contained" color="secondary">
+                    <div className={classes.navButtons}>
+                        <Link to="/" className={classes.link}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}>
                                 Go Back
                             </Button>
                         </Link>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.showForm}
+                            className={classes.button}>
+                            Save Palette
+                        </Button>
                     </div>
                 </AppBar>
+                {this.state.formShowing && (
+                    <PaletteMetaForm
+                        palettes={palettes}
+                        handleSubmit={handleSubmit}
+                        hideForm={this.hideForm}
+                    />
+                )}
             </div>
         );
     }
